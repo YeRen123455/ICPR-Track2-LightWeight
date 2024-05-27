@@ -3,7 +3,8 @@
 一、训练
     1.准备数据。将你的数据集放在dataset文件夹下。images包含所有的训练集图像，mask包含所有的标签。由随机采样的方式划分训练集和测试集。
         Baseline的划分为训练集7000张，测试集2000张，将训练集和测试集的TXT放在70_20文件夹下。请仿照ICPR_Track2文件的放置来规划你的数据集。
-    2.路径更新。model/parse_args_train.py 中dataset更新为你的数据集名称，root更新指向dataset文件夹的路径，
+    2.路径更新。下载测试结果文件，解压到result_WS路径下。
+        model/parse_args_train.py 中dataset更新为你的数据集名称，root更新指向dataset文件夹的路径，
         split_method更新为存储你的划分TXT的文件夹名称，base_size、crop_size将图片尺寸调整为512*512。
     3.运行train_test_evaluation.py 开启训练，训练结果和权重文件保存在result_WS中。训练完成后，会打印模型在测试集上取得的指标数值。
 
