@@ -1,3 +1,11 @@
+测试结果文件下载地址：
+百度网盘：
+链接：https://pan.baidu.com/s/1M9kv4WHMeeWqsZKT6e30oA?pwd=5ddv 
+提取码：5ddv
+OneDrive：
+https://1drv.ms/u/c/90bf30fdc8dd9ee7/EVxOhbh2Z5hOmhuejKJRM80BJ4HYRSDUSCh0YQkwWt-R-w?e=FXL6ro
+
+
 以下依次介绍Baseline模型训练、测试、评分的流程：
 
 一、训练
