@@ -1,6 +1,6 @@
 # Basic module
 from tqdm                  import tqdm
-from model.parse_args_test import  parse_args
+from model.parse_args_test import parse_args
 import scipy.io as scio
 
 # Torch and visulization
@@ -11,10 +11,10 @@ from torch.utils.data import DataLoader
 from model.utils  import *
 from model.metric import *
 from model.loss   import *
-from model.load_param_data import  load_dataset, load_param, load_dataset_eva
+from model.load_param_data import load_dataset, load_param, load_dataset_eva
 
 # Model
-from model.model_res_Unet      import  res_UNet
+from model.net import LightweightNetwork
 
 class Trainer(object):
     def __init__(self, args):
@@ -33,6 +33,8 @@ class Trainer(object):
             dataset_dir = args.root + '/' + args.dataset
             train_img_ids, val_img_ids, test_txt=load_dataset_eva(args.root, args.dataset,args.split_method)
 
+        _, self.val_img_ids, _ = load_dataset(args.root, args.dataset, args.split_method)
+
         if args.dataset=='ICPR_Track2':
             Mean_Value = [0.2518, 0.2518, 0.2519]
             Std_value  = [0.2557, 0.2557, 0.2558]
@@ -45,7 +47,7 @@ class Trainer(object):
         self.test_data  = DataLoader(dataset=testset,  batch_size=args.test_batch_size, shuffle=False, num_workers=args.workers,drop_last=False)
 
         # Choose and load model (this paper is finished by one GPU)
-        model       = res_UNet(num_classes=1, input_channels=args.in_channels, block='Res_block', num_blocks= num_blocks, nb_filter=nb_filter)
+        model       = LightweightNetwork()
         model.apply(weights_init_xavier)
         print("Model Initializing")
         self.model      = model
@@ -55,11 +57,15 @@ class Trainer(object):
         self.best_precision = [0,0,0,0,0,0,0,0,0,0,0]
 
         # Checkpoint
-        checkpoint        = torch.load(args.root.split('dataset')[0] +args.model_dir)
+        #checkpoint        = torch.load(args.root.split('dataset')[0] +args.model_dir)
+        checkpoint = torch.load(args.model_dir)
         target_image_path = dataset_dir + '/' +'visulization_result' + '/' + args.st_model + '_visulization_result'
         target_dir        = dataset_dir + '/' +'visulization_result' + '/' + args.st_model + '_visulization_fuse'
+        eval_image_path   = './result_WS/'+ args.st_model +'/'+ 'visulization_result'
+        eval_fuse_path    = './result_WS/'+ args.st_model +'/'+ 'visulization_fuse'
 
         make_visulization_dir(target_image_path, target_dir)
+        make_visulization_dir(eval_image_path, eval_fuse_path)
 
         # Load trained model
         self.model.load_state_dict(checkpoint['state_dict'])
@@ -76,6 +82,7 @@ class Trainer(object):
                 pred = self.model(data)
                 loss = SoftIoULoss(pred, labels)
                 save_Ori_intensity_Pred_GT(pred, labels,target_image_path, val_img_ids, num, args.suffix,args.crop_size)
+                save_Pred_GT_for_split_evalution(pred, labels, eval_image_path, self.val_img_ids, num, args.suffix,args.crop_size)
 
                 num += 1
 
