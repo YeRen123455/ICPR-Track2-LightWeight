@@ -19,7 +19,7 @@ def parse_args():
                         default = './result_WS/ICPR_Track2/mIoU__UNet_ICPR_Track2_epoch.pth.tar')
     parser.add_argument('--mode', type=str, default='TXT', help='mode name:  TXT, Ratio')
     parser.add_argument('--test_size', type=float, default='0.5', help='when --mode==Ratio')
-    parser.add_argument('--root', type=str, default='/media/gfkd/software/SIRST_Detection/ICPR_Track2/dataset')
+    parser.add_argument('--root', type=str, default='./dataset')
     parser.add_argument('--suffix', type=str, default='.png')
     parser.add_argument('--split_method', type=str, default='70_20',
                         help='70_20')
