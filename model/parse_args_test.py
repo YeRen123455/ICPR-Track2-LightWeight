@@ -14,9 +14,9 @@ def parse_args():
     # data and pre-process
     parser.add_argument('--dataset', type=str, default='ICPR_Track2',
                         help='dataset name: ICPR_Track2')
-    parser.add_argument('--st_model', type=str, default='0_ICPR_Track2_UNet_05_05_2024_08_41_12_wDS')
+    parser.add_argument('--st_model', type=str, default='ICPR_Track2')
     parser.add_argument('--model_dir', type=str,
-                        default = 'result_WS/0_ICPR_Track2_UNet_05_05_2024_08_41_12_wDS/mIoU__UNet_ICPR_Track2_epoch.pth.tar')
+                        default = './result_WS/ICPR_Track2/mIoU__UNet_ICPR_Track2_epoch.pth.tar')
     parser.add_argument('--mode', type=str, default='TXT', help='mode name:  TXT, Ratio')
     parser.add_argument('--test_size', type=float, default='0.5', help='when --mode==Ratio')
     parser.add_argument('--root', type=str, default='/media/gfkd/software/SIRST_Detection/ICPR_Track2/dataset')
