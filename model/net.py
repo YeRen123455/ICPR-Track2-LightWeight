@@ -91,9 +91,9 @@ class ChannelAttention(nn.Module):
         out = avg_out + max_out
         return self.sigmoid(out)
 
-class res_UNet(nn.Module):
-    def __init__(self, num_classes, input_channels, block, num_blocks, nb_filter):
-        super(res_UNet, self).__init__()
+class LightweightNetwork(nn.Module):
+    def __init__(self, num_classes=1, input_channels=3, block='Res_block', num_blocks=[2,2,2,2], nb_filter=[8, 16, 32, 64, 128]):
+        super(LightweightNetwork, self).__init__()
         if block == 'Res_block':
             block = Res_block
 
@@ -144,11 +144,11 @@ if __name__ == '__main__':
     from torchstat import stat
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
-    nb_filter, num_blocks, ACM_channel, ACM_layer_blocks = load_param('two', 'resnet_18')
+    nb_filter, num_blocks= load_param('two', 'resnet_18')
     input       = torch.randn(1, 3, 256, 256,).cuda()
     in_channels = 3
     # model   = res_UNet(num_classes=1, input_channels=in_channels, block=Res_CBAM_block, num_blocks=num_blocks, nb_filter=nb_filter)
-    model       = res_UNet(num_classes=1, input_channels=in_channels, block=Res_block, num_blocks=num_blocks, nb_filter=nb_filter)
+    model       = LightweightNetwork(num_classes=1, input_channels=in_channels, block=Res_block, num_blocks=num_blocks, nb_filter=nb_filter)
     a           = stat(model, (3,256,256))
     # model = model.cuda()
     # flops, params = profile(model, inputs=(input,), verbose=True)
