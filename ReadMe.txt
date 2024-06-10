@@ -14,7 +14,7 @@ https://1drv.ms/u/c/90bf30fdc8dd9ee7/EVxOhbh2Z5hOmhuejKJRM80BJ4HYRSDUSCh0YQkwWt-
     2.路径更新。下载测试结果文件，解压到result_WS路径下。
         model/parse_args_train.py 中dataset更新为你的数据集名称，root更新指向dataset文件夹的路径，
         split_method更新为存储你的划分TXT的文件夹名称，base_size、crop_size将图片尺寸调整为512*512。
-    3.运行train_test_evaluation.py 开启训练，训练结果和权重文件保存在result_WS中。训练完成后，会打印模型在测试集上取得的指标数值。
+    3.运行train_test_evaluation.py 开启训练，训练结果和权重文件保存在result_WS/ICPR_Track2中。训练完成后，会打印模型在测试集上取得的指标数值。
 
 二、测试
     1.更新路径。model/parse_args_test.py 中st_model指向result_WS中的文件夹，model_dir指向训练得到的权重.pth.tar的路径，root指向你的数据集路径。
