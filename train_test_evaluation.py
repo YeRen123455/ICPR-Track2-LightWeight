@@ -17,7 +17,7 @@ from model.load_param_data         import  load_dataset, load_param
 
 # model
 
-from model.model_res_Unet          import  res_UNet
+from model.net          import  LightweightNetwork
 
 import scipy.io as scio
 
@@ -59,7 +59,7 @@ class Trainer(object):
         # Choose and load model (this paper is finished by one GPU)
 
         if args.model == 'UNet':
-            model       = res_UNet(num_classes=1, input_channels=args.in_channels, block='Res_block', num_blocks= num_blocks, nb_filter=nb_filter)
+            model       = LightweightNetwork()
 
         model           = model.cuda()
         model.apply(weights_init_xavier)
@@ -153,7 +153,7 @@ class Trainer(object):
         self.model.load_state_dict(checkpoint['state_dict'])
         self.model = self.model.to('cuda')
 
-        evaluation_save_path =  'result_WS/' + self.save_dir
+        evaluation_save_path =  './result_WS/' + self.save_dir
         target_image_path    =  evaluation_save_path + '/' +'visulization_result'
         target_dir           =  evaluation_save_path + '/' +'visulization_fuse'
 
@@ -182,7 +182,7 @@ class Trainer(object):
 
             FA, PD    = self.PD_FA.get(len(self.val_img_ids), args.crop_size)
             test_loss = losses.avg
-            scio.savemat(evaluation_save_path + '/'+ 'PD_FA_' + str(255), {'number_record1': FA, 'number_record2': PD})
+            scio.savemat(evaluation_save_path + '/' + 'PD_FA_' + str(255), {'number_record1': FA, 'number_record2': PD})
 
             print('test_loss, %.4f' % (test_loss))
             print('mean_IOU:', mean_IOU)
