@@ -14,7 +14,7 @@ from model.loss   import *
 from model.load_param_data import load_dataset, load_param, load_dataset_eva
 
 # Model
-from model.net import LightweightNetwork
+from model.net import *
 
 class Trainer(object):
     def __init__(self, args):
