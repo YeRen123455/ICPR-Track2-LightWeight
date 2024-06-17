@@ -255,7 +255,7 @@ def save_model( best_iou, save_dir, save_prefix, train_loss, test_loss, recall, 
             'loss': test_loss,
             'mean_IOU': best_iou,
         }, save_path='result_WS/' + save_dir,
-            filename='mIoU_' + '_' + save_prefix + '_epoch' + '.pth.tar')
+            filename='model_weight' + '.pth.tar')
 
 
 def split_evaluation(dataset_dir, original_mask_dir, target_image_path, save_train_result_dir, base_size, FA, PD, supervision, split_method):
