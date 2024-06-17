@@ -1,4 +1,4 @@
-fa_threshold = 2e-5  #虚警率阈值          False alarm rate threshold
+fa_threshold = 5e-5  #虚警率阈值          False alarm rate threshold
 alpha = 0.5          #检测精度Sp的加权系数 The weighting coefficient of the performance score Sp
 Pbase = 2.225          #基线的参数量 M      The parameters for the baseline (Unit: M)
 Fbase = 12.56         #基线的运算量 GFlops The FLOPs for the baseline
