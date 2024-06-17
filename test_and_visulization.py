@@ -47,7 +47,7 @@ class Trainer(object):
         self.test_data  = DataLoader(dataset=testset,  batch_size=args.test_batch_size, shuffle=False, num_workers=args.workers,drop_last=False)
 
         # Choose and load model (this paper is finished by one GPU)
-        model       = LightweightNetwork()
+        model       = LightWeightNetwork()
         model.apply(weights_init_xavier)
         print("Model Initializing")
         self.model      = model
