@@ -91,9 +91,9 @@ class ChannelAttention(nn.Module):
         out = avg_out + max_out
         return self.sigmoid(out)
 
-class LightweightNetwork(nn.Module):
+class LightWeightNetwork(nn.Module):
     def __init__(self, num_classes=1, input_channels=3, block='Res_block', num_blocks=[2,2,2,2], nb_filter=[8, 16, 32, 64, 128]):
-        super(LightweightNetwork, self).__init__()
+        super(LightWeightNetwork, self).__init__()
         if block == 'Res_block':
             block = Res_block
 
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     input       = torch.randn(1, 3, 256, 256,).cuda()
     in_channels = 3
     # model   = res_UNet(num_classes=1, input_channels=in_channels, block=Res_CBAM_block, num_blocks=num_blocks, nb_filter=nb_filter)
-    model       = LightweightNetwork(num_classes=1, input_channels=in_channels, block=Res_block, num_blocks=num_blocks, nb_filter=nb_filter)
+    model       = LightWeightNetwork(num_classes=1, input_channels=in_channels, block=Res_block, num_blocks=num_blocks, nb_filter=nb_filter)
     a           = stat(model, (3,256,256))
     # model = model.cuda()
     # flops, params = profile(model, inputs=(input,), verbose=True)
