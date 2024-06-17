@@ -17,7 +17,7 @@ from model.load_param_data         import  load_dataset, load_param
 
 # model
 
-from model.net          import  LightweightNetwork
+from model.net          import  LightWeightNetwork
 
 import scipy.io as scio
 
@@ -59,7 +59,7 @@ class Trainer(object):
         # Choose and load model (this paper is finished by one GPU)
 
         if args.model == 'UNet':
-            model       = LightweightNetwork()
+            model       = LightWeightNetwork()
 
         model           = model.cuda()
         model.apply(weights_init_xavier)
