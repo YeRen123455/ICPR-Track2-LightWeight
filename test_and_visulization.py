@@ -64,7 +64,7 @@ class Trainer(object):
         eval_image_path   = './result_WS/'+ args.st_model +'/'+ 'visulization_result'
         eval_fuse_path    = './result_WS/'+ args.st_model +'/'+ 'visulization_fuse'
 
-        make_visulization_dir(target_image_path, target_dir)
+        #make_visulization_dir(target_image_path, target_dir)
         make_visulization_dir(eval_image_path, eval_fuse_path)
 
         # Load trained model
