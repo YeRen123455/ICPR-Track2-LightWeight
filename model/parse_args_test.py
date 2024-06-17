@@ -16,12 +16,12 @@ def parse_args():
                         help='dataset name: ICPR_Track2')
     parser.add_argument('--st_model', type=str, default='ICPR_Track2')
     parser.add_argument('--model_dir', type=str,
-                        default = './result_WS/ICPR_Track2/mIoU__UNet_ICPR_Track2_epoch.pth.tar')
+                        default = './result_WS/ICPR_Track2/model_weight.pth.tar')
     parser.add_argument('--mode', type=str, default='TXT', help='mode name:  TXT, Ratio')
     parser.add_argument('--test_size', type=float, default='0.5', help='when --mode==Ratio')
     parser.add_argument('--root', type=str, default='./dataset')
     parser.add_argument('--suffix', type=str, default='.png')
-    parser.add_argument('--split_method', type=str, default='70_20',
+    parser.add_argument('--split_method', type=str, default='img_idx',
                         help='70_20')
     parser.add_argument('--workers', type=int, default=4,
                         metavar='N', help='dataloader threads')
