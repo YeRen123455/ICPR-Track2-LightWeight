@@ -21,24 +21,35 @@ def load_dataset (root, dataset, split_method):
         f.close()
     return train_img_ids,val_img_ids,test_txt
 
-def load_dataset_eva (root, dataset, split_method):
-    train_txt = root + '/' + dataset + '/' + split_method + '/' + 'train.txt'
+def load_dataset1 (root, dataset, split_method):
     test_txt  = root + '/' + dataset + '/' + split_method + '/' + 'test.txt'
-    train_img_ids = []
     val_img_ids = []
-    with open(train_txt, "r") as f:
-        line = f.readline()
-        while line:
-            train_img_ids.append(line.split('\n')[0])
-            line = f.readline()
-        f.close()
     with open(test_txt, "r") as f:
         line = f.readline()
         while line:
             val_img_ids.append(line.split('\n')[0])
             line = f.readline()
         f.close()
-    return train_img_ids,val_img_ids,test_txt
+    return val_img_ids,test_txt
+
+def load_dataset_eva (root, dataset, split_method):
+    train_txt = root + '/' + dataset + '/' + split_method + '/' + 'train.txt'
+    test_txt  = root + '/' + dataset + '/' + split_method + '/' + 'test.txt'
+    #train_img_ids = []
+    val_img_ids = []
+    # with open(train_txt, "r") as f:
+    #     line = f.readline()
+    #     while line:
+    #         train_img_ids.append(line.split('\n')[0])
+    #         line = f.readline()
+    #     f.close()
+    with open(test_txt, "r") as f:
+        line = f.readline()
+        while line:
+            val_img_ids.append(line.split('\n')[0])
+            line = f.readline()
+        f.close()
+    return val_img_ids,test_txt
 
 
 def load_param(channel_size, backbone, blocks_per_layer=4):
