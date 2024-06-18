@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from model.utils  import *
 from model.metric import *
 from model.loss   import *
-from model.load_param_data import load_dataset, load_param, load_dataset_eva
+from model.load_param_data import load_dataset1, load_param, load_dataset_eva
 
 # Model
 from model.net import *
@@ -31,9 +31,10 @@ class Trainer(object):
         # Read image index from TXT
         if args.mode    == 'TXT':
             dataset_dir = args.root + '/' + args.dataset
-            train_img_ids, val_img_ids, test_txt=load_dataset_eva(args.root, args.dataset,args.split_method)
+            #train_img_ids, val_img_ids, test_txt=load_dataset_eva(args.root, args.dataset,args.split_method)
+            val_img_ids, test_txt = load_dataset_eva(args.root, args.dataset, args.split_method)
 
-        _, self.val_img_ids, _ = load_dataset(args.root, args.dataset, args.split_method)
+        self.val_img_ids, _ = load_dataset1(args.root, args.dataset, args.split_method)
 
         if args.dataset=='ICPR_Track2':
             Mean_Value = [0.2518, 0.2518, 0.2519]
