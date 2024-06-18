@@ -81,7 +81,7 @@ class Trainer(object):
                 labels = labels.cuda()
                 pred = self.model(data)
                 loss = SoftIoULoss(pred, labels)
-                save_Ori_intensity_Pred_GT(pred, labels,target_image_path, val_img_ids, num, args.suffix,args.crop_size)
+                #save_Ori_intensity_Pred_GT(pred, labels,target_image_path, val_img_ids, num, args.suffix,args.crop_size)
                 save_Pred_GT_for_split_evalution(pred, labels, eval_image_path, self.val_img_ids, num, args.suffix,args.crop_size)
 
                 num += 1
