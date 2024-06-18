@@ -96,8 +96,8 @@ class Trainer(object):
             FA, PD    = self.PD_FA.get(len(val_img_ids), args.crop_size)
             test_loss = losses.avg
 
-            scio.savemat(dataset_dir + '/' +  'value_result'+ '/' +args.st_model  + '_PD_FA_' + str(255),
-                         {'number_record1': FA, 'number_record2': PD})
+            # scio.savemat(dataset_dir + '/' +  'value_result'+ '/' +args.st_model  + '_PD_FA_' + str(255),
+            #              {'number_record1': FA, 'number_record2': PD})
 
             print('test_loss, %.4f' % (test_loss))
             print('mean_IOU:', mean_IOU)
