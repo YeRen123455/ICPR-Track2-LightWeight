@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from   thop import profile, clever_format
+#from   thop import profile, clever_format
 class Res_block(nn.Module):
     def __init__(self, in_channels, out_channels, stride = 1):
         super(Res_block, self).__init__()
@@ -135,26 +135,26 @@ class LightWeightNetwork(nn.Module):
         output = self.final(x0_4)
         return output
 
-# #####################################
-# ### FLops, Params, Inference time evaluation
-if __name__ == '__main__':
-    from model.load_param_data import  load_param
-    import time
-    import os
-    from torchstat import stat
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+# # #####################################
+# # ### FLops, Params, Inference time evaluation
+# if __name__ == '__main__':
+#     from model.load_param_data import  load_param
+#     import time
+#     import os
+#     from torchstat import stat
+#     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
-    nb_filter, num_blocks= load_param('two', 'resnet_18')
-    input       = torch.randn(1, 3, 256, 256,).cuda()
-    in_channels = 3
-    # model   = res_UNet(num_classes=1, input_channels=in_channels, block=Res_CBAM_block, num_blocks=num_blocks, nb_filter=nb_filter)
-    model       = LightWeightNetwork(num_classes=1, input_channels=in_channels, block=Res_block, num_blocks=num_blocks, nb_filter=nb_filter)
-    a           = stat(model, (3,256,256))
-    # model = model.cuda()
-    # flops, params = profile(model, inputs=(input,), verbose=True)
-    # flops, params = clever_format([flops, params], "%.3f")
-    # start_time = time.time()
-    # output     = model(input)
-    # end_time   = time.time()
-    # print('flops:', flops, 'params:', params)
-    # print('inference time per image:',end_time-start_time )
+#     nb_filter, num_blocks= load_param('two', 'resnet_18')
+#     input       = torch.randn(1, 3, 256, 256,).cuda()
+#     in_channels = 3
+#     # model   = res_UNet(num_classes=1, input_channels=in_channels, block=Res_CBAM_block, num_blocks=num_blocks, nb_filter=nb_filter)
+#     model       = LightWeightNetwork(num_classes=1, input_channels=in_channels, block=Res_block, num_blocks=num_blocks, nb_filter=nb_filter)
+#     a           = stat(model, (3,256,256))
+#     # model = model.cuda()
+#     # flops, params = profile(model, inputs=(input,), verbose=True)
+#     # flops, params = clever_format([flops, params], "%.3f")
+#     # start_time = time.time()
+#     # output     = model(input)
+#     # end_time   = time.time()
+#     # print('flops:', flops, 'params:', params)
+#     # print('inference time per image:',end_time-start_time )
