@@ -125,6 +125,10 @@ class TestSetLoader(Dataset):
 
         img  = Image.open(img_path).convert('RGB')  ##由于输入的三通道、单通道图像都有，所以统一转成RGB的三通道，这也符合Unet等网络的期待尺寸
         mask = Image.open(label_path)
+
+        w, h = img.size
+        size = [w, h]
+
         # synchronized transform
         img, mask = self._testval_sync_transform(img, mask)
 
@@ -135,10 +139,69 @@ class TestSetLoader(Dataset):
         mask = np.expand_dims(mask[:,:,0] if len(np.shape(mask))>2 else mask, axis=0).astype('float32')/ 255.0
 
 
-        return img, torch.from_numpy(mask)  # img_id[-1]
+        return img, torch.from_numpy(mask), size  # img_id[-1]
 
     def __len__(self):
         return len(self._items)
+
+class InferenceSetLoader(Dataset):
+    NUM_CLASS = 1
+
+    def __init__(self, dataset_dir, img_id, transform=None, base_size=512, crop_size=480, suffix='.png'):
+        super(InferenceSetLoader, self).__init__()
+        self.transform = transform
+        self._items    = img_id
+        #self.masks     = dataset_dir+'/'+'masks'
+        self.images    = dataset_dir+'/'+'images'
+        self.base_size = base_size
+        self.crop_size = crop_size
+        self.suffix    = suffix
+
+    def _testval_sync_transform(self, img):
+        base_size = self.base_size
+        img  = img.resize ((base_size, base_size), Image.BILINEAR)
+        #mask = mask.resize((base_size, base_size), Image.NEAREST)
+
+
+        # final transform
+        #img, mask = np.array(img), np.array(mask, dtype=np.float32)  # images: <class 'mxnet.ndarray.ndarray.NDArray'> (512, 512, 3)
+        #return img, mask
+        img = np.array(img)
+        return img
+
+
+    def __getitem__(self, idx):
+        # print('idx:',idx)
+        img_id     = self._items[idx]  # idx：('../SIRST', 'Misc_70') 成对出现，因为我的workers设置为了2
+        img_path   = self.images + '/' + img_id + self.suffix    # img_id的数值正好补了self._image_path在上面定义的2个空
+        #label_path = self.masks  + '/' + img_id + self.suffix
+
+        img  = Image.open(img_path).convert('RGB')  ##由于输入的三通道、单通道图像都有，所以统一转成RGB的三通道，这也符合Unet等网络的期待尺寸
+        #mask = Image.open(label_path)
+
+        w, h = img.size
+        size = [w, h]
+
+        # synchronized transform
+        #img, mask = self._testval_sync_transform(img, mask)
+        img = self._testval_sync_transform(img)
+
+        # general resize, normalize and toTensor
+        if self.transform is not None:
+            img = self.transform(img)
+
+        #mask = np.expand_dims(mask[:,:,0] if len(np.shape(mask))>2 else mask, axis=0).astype('float32')/ 255.0
+
+        #return img, torch.from_numpy(mask), size  # img_id[-1]
+        return img, size
+
+    def __len__(self):
+        return len(self._items)
+
+
+
+
+
 
 class DemoLoader (Dataset):
     """Iceberg Segmentation dataset."""
@@ -539,9 +602,20 @@ def save_Pred_GT_for_split_evalution(pred, labels, target_image_path, val_img_id
     predsss = np.array((pred > 0).cpu()).astype('int64') * 255
     predsss = np.uint8(predsss)
 
-    img = Image.fromarray(predsss.reshape(crop_size, crop_size))
+    #img = Image.fromarray(predsss.reshape(crop_size, crop_size))
+    img = Image.fromarray(predsss)
     img.save(target_image_path + '/' + '%s' % (val_img_ids[num]) +suffix)
 
+def save_resize_pred(pred, size, crop_size, target_image_path, val_img_ids, num, suffix):
+
+    preds = np.array((pred > 0).cpu()).astype('int64') * 255
+    preds = np.uint8(preds)
+
+    preds = Image.fromarray(preds.reshape(crop_size, crop_size))
+    img = preds.resize((size[0].item(), size[1].item()), Image.NEAREST)
+    img.save(target_image_path + '/' + '%s' % (val_img_ids[num]) + suffix)
+
+    #return preds
 
 
 def save_Pred_GT_visulize(pred, img_demo_dir, img_demo_index, suffix):
