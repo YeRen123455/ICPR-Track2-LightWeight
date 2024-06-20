@@ -77,13 +77,16 @@ class Trainer(object):
         losses = AverageMeter()
         with torch.no_grad():
             num = 0
-            for i, ( data, labels) in enumerate(tbar):
+            for i, ( data, labels, size) in enumerate(tbar):
                 data = data.cuda()
                 labels = labels.cuda()
                 pred = self.model(data)
+
+
                 loss = SoftIoULoss(pred, labels)
                 #save_Ori_intensity_Pred_GT(pred, labels,target_image_path, val_img_ids, num, args.suffix,args.crop_size)
-                save_Pred_GT_for_split_evalution(pred, labels, eval_image_path, self.val_img_ids, num, args.suffix,args.crop_size)
+                save_resize_pred(pred, size, args.crop_size, eval_image_path, self.val_img_ids, num, args.suffix)
+                #save_Pred_GT_for_split_evalution(pred, labels, eval_image_path, self.val_img_ids, num, args.suffix, args.crop_size)
 
                 num += 1
 
@@ -113,8 +116,3 @@ if __name__ == "__main__":
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     args = parse_args()
     main(args)
-
-
-
-
-
